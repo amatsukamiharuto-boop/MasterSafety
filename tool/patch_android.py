@@ -29,7 +29,7 @@ if "TTS_SERVICE" not in text:
 manifest.write_text(text)
 
 # Samakan target Java semua plugin ke 17 (perbaiki error tflite_flutter:
-# Java 1.8 vs Kotlin 17). Ditaruh di AWAL build.gradle.kts supaya
+# Java 1.8 vs Kotlin 17, dan flutter_tts: Java 17 vs Kotlin 11). Ditaruh di AWAL build.gradle.kts supaya
 # afterEvaluate terdaftar sebelum subproject dievaluasi.
 root_gradle = pathlib.Path("android/build.gradle.kts")
 if root_gradle.exists():
@@ -42,6 +42,11 @@ subprojects {
             compileOptions {
                 sourceCompatibility = JavaVersion.VERSION_17
                 targetCompatibility = JavaVersion.VERSION_17
+            }
+        }
+        tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class.java).configureEach {
+            compilerOptions {
+                jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
             }
         }
     }
