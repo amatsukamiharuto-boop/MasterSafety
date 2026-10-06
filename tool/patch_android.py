@@ -1,5 +1,5 @@
 """Menyesuaikan folder android/ hasil `flutter create`:
-izin kamera, query TTS (Android 11+), dan minSdk 23."""
+izin kamera, query TTS (Android 11+), minSdk 23, dan JVM target 17 untuk plugin."""
 import pathlib
 import re
 import sys
@@ -27,6 +27,31 @@ if "TTS_SERVICE" not in text:
             "</manifest>", f"    <queries>{tts_intent}</queries>\n</manifest>", 1
         )
 manifest.write_text(text)
+
+# Samakan target Java semua plugin ke 17 (perbaiki error tflite_flutter:
+# Java 1.8 vs Kotlin 17). Ditaruh di AWAL build.gradle.kts supaya
+# afterEvaluate terdaftar sebelum subproject dievaluasi.
+root_gradle = pathlib.Path("android/build.gradle.kts")
+if root_gradle.exists():
+    g = root_gradle.read_text()
+    if "JVM_17_PATCH" not in g:
+        jvm_patch = '''// JVM_17_PATCH
+subprojects {
+    afterEvaluate {
+        extensions.findByType(com.android.build.gradle.LibraryExtension::class.java)?.apply {
+            compileOptions {
+                sourceCompatibility = JavaVersion.VERSION_17
+                targetCompatibility = JavaVersion.VERSION_17
+            }
+        }
+    }
+}
+
+'''
+        root_gradle.write_text(jvm_patch + g)
+        print("JVM target plugin dipatch ke 17.")
+else:
+    print("PERINGATAN: android/build.gradle.kts tidak ditemukan.")
 
 patched = False
 for name, repl in (
