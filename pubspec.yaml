@@ -1,0 +1,42 @@
+name: mastersafety
+description: MasterSafety - autentikasi biometrik mata dengan audio feedback.
+publish_to: "none"
+version: 1.2.0+3
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  camera: ^0.11.0
+  google_mlkit_face_detection: ^0.11.0
+  tflite_flutter: ^0.11.0
+  image: ^4.2.0
+  audioplayers: ^6.1.0
+  flutter_tts: ^4.2.0
+  sqflite: ^2.3.3
+  path: ^1.9.0
+  permission_handler: ^11.3.1
+  shared_preferences: ^2.3.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  flutter_launcher_icons: ^0.14.1
+
+# Ikon aplikasi: dibuat oleh tool/generate_icon.py, dipasang oleh
+# `dart run flutter_launcher_icons` (otomatis di GitHub Actions).
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/icon/icon.png"
+  adaptive_icon_background: "#0A1220"
+  adaptive_icon_foreground: "assets/icon/icon_foreground.png"
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/audio/
+    - assets/models/
