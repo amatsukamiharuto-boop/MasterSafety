@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'dart:math' as math;
 
+import 'package:flutter_litert/flutter_litert.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:image/image.dart' as img;
-import 'package:tflite_flutter/tflite_flutter.dart';
 
 class EyeScanException implements Exception {
   final String message;
