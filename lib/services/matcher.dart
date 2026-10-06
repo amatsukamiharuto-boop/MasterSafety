@@ -23,7 +23,7 @@ class MatchResult {
 
 class MatchService {
   /// Ambang bawaan sesuai spesifikasi. Bisa dikalibrasi lewat layar Kalibrasi.
-  static const double defaultThreshold = 0.90;
+  static const double defaultThreshold = 0.50;
 
   double threshold = defaultThreshold;
 
